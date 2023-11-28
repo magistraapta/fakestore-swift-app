@@ -7,33 +7,12 @@
 
 import Foundation
 
-// MARK: - WelcomeElement
-struct Product:Identifiable, Codable {
-    let id: Int
-    let title: String
-    let price: Double
-    let description: String
-    let category: Category
-    let image: String
-    let rating: Rating
-}
 
-enum Category: String, Codable {
-    case electronics = "electronics"
-    case jewelery = "jewelery"
-    case menSClothing = "men's clothing"
-    case womenSClothing = "women's clothing"
-}
-
-// MARK: - Rating
-struct Rating: Codable {
-    let rate: Double
-    let count: Int
-}
 
 class NetworkManager: ObservableObject{
     @Published var product: [Product] = []
     @Published var productDetail: Product?
+    @Published var cartItem: [Product] = []
     
     init(){}
     
@@ -78,4 +57,9 @@ class NetworkManager: ObservableObject{
        
     }
     
+    func addItemToCart(item: Product) {
+        let item = Product(id: item.id, title: item.title, price: item.price, description: item.description, category: item.category, image: item.image, rating: item.rating)
+
+        cartItem.append(item)
+    }
 }

@@ -25,6 +25,16 @@ struct HomeView: View {
             }
         }
         .navigationTitle("Item List")
+        .toolbar{
+            ToolbarItemGroup {
+                NavigationLink {
+                    CartView()
+                } label: {
+                    Image(systemName: "cart")
+                }
+
+            }
+        }
         .onAppear{
             Task{
                 do{

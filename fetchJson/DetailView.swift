@@ -8,8 +8,11 @@
 import SwiftUI
 
 struct DetailView: View {
+    
     @EnvironmentObject var network: NetworkManager
     @State var productId: Int
+//    @StateObject var cartViewModel = CartViewModel()
+    
     var body: some View {
         ScrollView(.vertical) {
             if let product = network.productDetail {
@@ -33,7 +36,8 @@ struct DetailView: View {
                     Text(product.description)
                     Spacer()
                     Button {
-                        //
+                        network.addItemToCart(item: product)
+                        print("clicked")
                     } label: {
                         Text("Add to cart")
                             .padding()
