@@ -62,4 +62,8 @@ class NetworkManager: ObservableObject{
 
         cartItem.append(item)
     }
+    
+    func deleteCartItem(index: IndexSet){
+        cartItem.remove(atOffsets: index)
+    }
 }

@@ -27,6 +27,7 @@ struct CartView: View {
                     Text("\(item.title)")
                 }
             }
+            .onDelete(perform: network.deleteCartItem)
         }
         .navigationTitle("Cart")
     }
