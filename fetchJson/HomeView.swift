@@ -9,28 +9,43 @@ import SwiftUI
 
 struct HomeView: View {
     @EnvironmentObject var network: NetworkManager
+    private let adaptiveColumn = [
+            GridItem(.adaptive(minimum: 150))
+        ]
+    @State var search:String = ""
     var body: some View {
-        List{
-            ForEach(network.product){item in
-                NavigationLink {
-                    DetailView(productId: item.id)
-                } label: {
-                    HStack {
-                        Text("\(item.title)")
-                        Spacer()
-                        Text("\(item.price)")
-                            .foregroundColor(Color(.purple))
+        ScrollView{
+            LazyVGrid(columns: adaptiveColumn, spacing: 20) {
+                ForEach(network.product) { item in
+                    NavigationLink {
+                        DetailView(productId: item.id)
+                    } label: {
+                        ItemCardComponent(itemImage: item.image, itemTitle: item.title, itemPrice: item.price)
                     }
+
+                    
                 }
             }
         }
-        .navigationTitle("Item List")
+        .searchable(text: $search)
+        .navigationTitle("FakeStore")
         .toolbar{
             ToolbarItemGroup {
                 NavigationLink {
                     CartView()
                 } label: {
-                    Image(systemName: "cart")
+                    ZStack (alignment: .topTrailing){
+                        Image(systemName: "cart")
+                        ZStack {
+                            Circle()
+                                .frame(width: 18)
+                                .foregroundColor(.red)
+                            Text("\(network.cartItem.count)")
+                                .foregroundColor(.white)
+                                .font(.system(size: 12))
+                        }
+                        
+                    }
                 }
 
             }
