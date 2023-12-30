@@ -70,6 +70,7 @@ struct HomeView: View {
 }
 
 struct BannerCarousel: View {
+    let timer = Timer.publish(every: 5, on: .main, in: .common).autoconnect()
     let banner = ["banner", "banner-2", "banner-3"]
     @State var currentPage = 0
     var body: some View {
@@ -86,6 +87,11 @@ struct BannerCarousel: View {
         }
         .frame(height: 200)
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
+        .onReceive(timer) { _ in
+            withAnimation {
+                currentPage = (currentPage + 1)
+            }
+        }
     }
 }
 
