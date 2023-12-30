@@ -29,6 +29,7 @@ struct HomeView: View {
         }
         .searchable(text: $search)
         .navigationTitle("FakeStore")
+        .navigationBarTitleDisplayMode(.inline)
         .toolbar{
             ToolbarItemGroup {
                 NavigationLink {
@@ -44,7 +45,6 @@ struct HomeView: View {
                                 .foregroundColor(.white)
                                 .font(.system(size: 12))
                         }
-                        
                     }
                 }
 
