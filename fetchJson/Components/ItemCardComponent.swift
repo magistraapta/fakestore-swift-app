@@ -10,7 +10,7 @@ import SwiftUI
 struct ItemCardComponent: View {
     @State var itemImage: String
     @State var itemTitle: String
-    @State var itemPrice: Double
+    @State var itemPrice: Double = 0.0
     var body: some View {
         VStack {
             AsyncImage(url: URL(string: itemImage)) { image in
@@ -19,6 +19,7 @@ struct ItemCardComponent: View {
                     .aspectRatio(contentMode: .fill)
                     .frame(width: 150, height: 150, alignment: .top)
                     .clipped()
+                    .cornerRadius(12)
                 } placeholder: {
                     Rectangle()
                         .frame(width: 150, height: 200)
@@ -31,7 +32,7 @@ struct ItemCardComponent: View {
                     .foregroundColor(.black)
                     .frame(width: 150, height: 50)
                     .truncationMode(.tail)
-                Text("$\(itemPrice)")
+                Text("$\(ridZero(result: itemPrice))")
                     .foregroundColor(.black)
             }
             .padding()
@@ -39,6 +40,11 @@ struct ItemCardComponent: View {
         }
         .frame(maxWidth: 200)
 
+    }
+    
+    func ridZero(result: Double) -> String{
+        let value = String(format: "%g", result)
+        return value
     }
 }
 
