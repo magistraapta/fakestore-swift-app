@@ -15,15 +15,22 @@ struct HomeView: View {
     @State var search:String = ""
     var body: some View {
         ScrollView{
-            LazyVGrid(columns: adaptiveColumn, spacing: 20) {
-                ForEach(network.product) { item in
-                    NavigationLink {
-                        DetailView(productId: item.id)
-                    } label: {
-                        ItemCardComponent(itemImage: item.image, itemTitle: item.title, itemPrice: item.price)
-                    }
+            VStack (spacing: 24){
+//                Image("banner")
+//                    .resizable()
+//                    .aspectRatio(contentMode: .fit)
+//                    .frame(width: 353)
+                BannerCarousel()
+                LazyVGrid(columns: adaptiveColumn, spacing: 20) {
+                    ForEach(network.product) { item in
+                        NavigationLink {
+                            DetailView(productId: item.id)
+                        } label: {
+                            ItemCardComponent(itemImage: item.image, itemTitle: item.title, itemPrice: item.price)
+                        }
 
-                    
+                        
+                    }
                 }
             }
         }
@@ -59,6 +66,26 @@ struct HomeView: View {
                 }
             }
         }
+    }
+}
+
+struct BannerCarousel: View {
+    let banner = ["banner", "banner-2", "banner-3"]
+    @State var currentPage = 0
+    var body: some View {
+        TabView(selection: $currentPage){
+            ForEach(0..<banner.count){ index in
+                Image(banner[index])
+                    .resizable()
+                    .aspectRatio(contentMode: .fit)
+                    .frame(width: 353)
+                    .clipped()
+                    
+                
+            }
+        }
+        .frame(height: 200)
+        .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
     }
 }
 
