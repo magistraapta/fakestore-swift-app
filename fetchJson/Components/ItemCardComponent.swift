@@ -16,8 +16,9 @@ struct ItemCardComponent: View {
             AsyncImage(url: URL(string: itemImage)) { image in
                 image
                     .resizable()
-                    .aspectRatio(contentMode: .fit)
-                    .frame(maxWidth:100)
+                    .aspectRatio(contentMode: .fill)
+                    .frame(width: 150, height: 150, alignment: .top)
+                    .clipped()
                 } placeholder: {
                     Rectangle()
                         .frame(width: 150, height: 200)
@@ -28,6 +29,8 @@ struct ItemCardComponent: View {
                 Text(itemTitle)
                     .multilineTextAlignment(.leading)
                     .foregroundColor(.black)
+                    .frame(width: 150, height: 50)
+                    .truncationMode(.tail)
                 Text("$\(itemPrice)")
                     .foregroundColor(.black)
             }
