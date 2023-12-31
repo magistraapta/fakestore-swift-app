@@ -14,10 +14,11 @@ struct HomeView: View {
         ]
     @State var search:String = ""
     @State var showDetailView: Bool = false
+    @State var showCartView: Bool = false
     var body: some View {
         VStack {
             VStack{
-                headerView()
+                headerView(cart: network.cartItem.count)
                     .padding(.horizontal, 20)
                 
             }
@@ -49,24 +50,29 @@ struct HomeView: View {
 }
 
 @ViewBuilder
-func headerView() -> some View {
+func headerView(cart: Int) -> some View {
     HStack{
         Text("Discover your style")
             .font(.title2)
             .bold()
         Spacer()
-        ZStack (alignment: .topTrailing){
-            Image(systemName: "cart")
-                .font(.title2)
-            ZStack {
-                Circle()
-                    .frame(width: 18)
-                    .foregroundColor(.red)
-                Text("\(1)")
-                    .foregroundColor(.white)
-                    .font(.system(size: 12))
+        NavigationLink(destination: CartView()) {
+            ZStack (alignment: .topTrailing){
+                Image(systemName: "cart")
+                    .font(.title2)
+                ZStack {
+                    Circle()
+                        .frame(width: 18)
+                        .foregroundColor(.red)
+                    Text("\(cart)")
+                        .foregroundColor(.white)
+                        .font(.system(size: 12))
+                }
             }
+
         }
+
+        
     }
 }
 
