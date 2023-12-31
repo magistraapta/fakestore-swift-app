@@ -13,57 +13,58 @@ struct HomeView: View {
             GridItem(.adaptive(minimum: 150))
         ]
     @State var search:String = ""
+    @State var showDetailView: Bool = false
     var body: some View {
-        ScrollView{
-            VStack (spacing: 24){
-//                Image("banner")
-//                    .resizable()
-//                    .aspectRatio(contentMode: .fit)
-//                    .frame(width: 353)
-                BannerCarousel()
-                LazyVGrid(columns: adaptiveColumn, spacing: 20) {
-                    ForEach(network.product) { item in
-                        NavigationLink {
-                            DetailView(productId: item.id)
-                        } label: {
-                            ItemCardComponent(itemImage: item.image, itemTitle: item.title, itemPrice: item.price)
-                        }
-
-                        
-                    }
-                }
+        VStack {
+            VStack{
+                headerView()
+                    .padding(.horizontal, 20)
+                
             }
-        }
-        .searchable(text: $search)
-        .navigationTitle("FakeStore")
-        .navigationBarTitleDisplayMode(.inline)
-        .toolbar{
-            ToolbarItemGroup {
-                NavigationLink {
-                    CartView()
-                } label: {
-                    ZStack (alignment: .topTrailing){
-                        Image(systemName: "cart")
-                        ZStack {
-                            Circle()
-                                .frame(width: 18)
-                                .foregroundColor(.red)
-                            Text("\(network.cartItem.count)")
-                                .foregroundColor(.white)
-                                .font(.system(size: 12))
+            ScrollView{
+                VStack (spacing: 24){
+                    BannerCarousel()
+                    LazyVGrid(columns: adaptiveColumn, spacing: 20) {
+                        ForEach(network.product) { item in
+                            NavigationLink {
+                                DetailView(productId: item.id)
+                            } label: {
+                                ItemCardComponent(itemImage: item.image, itemTitle: item.title, itemPrice: item.price)
+                            }
                         }
                     }
                 }
-
             }
-        }
-        .onAppear{
-            Task{
-                do{
-                    try await network.fetchData()
-                } catch{
-                    print(error)
+            .onAppear{
+                Task{
+                    do{
+                        try await network.fetchData()
+                    } catch{
+                        print(error)
+                    }
                 }
+        }
+        }
+    }
+}
+
+@ViewBuilder
+func headerView() -> some View {
+    HStack{
+        Text("Discover your style")
+            .font(.title2)
+            .bold()
+        Spacer()
+        ZStack (alignment: .topTrailing){
+            Image(systemName: "cart")
+                .font(.title2)
+            ZStack {
+                Circle()
+                    .frame(width: 18)
+                    .foregroundColor(.red)
+                Text("\(1)")
+                    .foregroundColor(.white)
+                    .font(.system(size: 12))
             }
         }
     }
@@ -78,14 +79,14 @@ struct BannerCarousel: View {
             ForEach(0..<banner.count){ index in
                 Image(banner[index])
                     .resizable()
-                    .aspectRatio(contentMode: .fit)
+                    .aspectRatio(contentMode: .fill)
                     .frame(width: 353)
                     .clipped()
                     
                 
             }
         }
-        .frame(height: 200)
+        .frame(height: 154)
         .tabViewStyle(PageTabViewStyle(indexDisplayMode: .never))
         .onReceive(timer) { _ in
             withAnimation {
