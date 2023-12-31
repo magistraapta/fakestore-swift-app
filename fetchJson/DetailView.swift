@@ -40,7 +40,7 @@ struct DetailView: View {
                                 .scaledToFit()
                                 .frame(width: 327, height: 200)
                         } placeholder: {
-                            ProgressView()
+                            ImageSkeleton()
                     }
                 }
                 .frame(maxWidth: .infinity)
@@ -70,7 +70,11 @@ struct DetailView: View {
                 .padding()
                 
             } else {
-                ProgressView("Loading...")
+                VStack (alignment: .leading){
+                    ImageSkeleton()
+                    TextSkeleton()
+                }
+                .padding(.horizontal,15)
                     .task {
                         await network.getDetailProduct(id: productId)
                     }
