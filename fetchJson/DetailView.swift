@@ -11,20 +11,39 @@ struct DetailView: View {
     
     @EnvironmentObject var network: NetworkManager
     @State var productId: Int
-//    @StateObject var cartViewModel = CartViewModel()
-    
+    @Environment(\.presentationMode) var isPresented
     var body: some View {
         ScrollView(.vertical) {
             if let product = network.productDetail {
-                VStack(alignment:.leading, spacing: 12){
-                    AsyncImage(url: URL(string: product.image)) { image in
-                        image
-                            .resizable()
-                            .scaledToFit()
-                            .frame(width: 327, height: 200)
-                    } placeholder: {
-                        ProgressView()
+                VStack( alignment: .leading,spacing: 12){
+                Button {
+                    isPresented.wrappedValue.dismiss()
+                } label: {
+                    ZStack{
+                        Rectangle()
+                            .aspectRatio(contentMode: .fit)
+                            .frame(width: 36)
+                            .cornerRadius(12)
+                            .background()
+                            .foregroundColor(Color.gray.opacity(0.3))
+                        Image(systemName: "chevron.left")
+                            .foregroundColor(Color.black)
+
                     }
+                                
+                }
+
+                VStack {
+                    AsyncImage(url: URL(string: product.image)) { image in
+                            image
+                                .resizable()
+                                .scaledToFit()
+                                .frame(width: 327, height: 200)
+                        } placeholder: {
+                            ProgressView()
+                    }
+                }
+                .frame(maxWidth: .infinity)
                     Text(product.title)
                         .font(.system(size: 24))
                         .bold()
@@ -58,6 +77,7 @@ struct DetailView: View {
             }
             
         }
+        .navigationBarBackButtonHidden(true)
         .task {
             await network.getDetailProduct(id: productId)
         }
@@ -67,10 +87,21 @@ struct DetailView: View {
     }
 }
 
+private struct HeaderView: View {
+    var body: some View{
+        HStack{
+            Image(systemName: "chevron.left")
+                .font(.title2)
+            Spacer()
+        }
+    }
+}
+
+
 struct DetailView_Previews: PreviewProvider {
     static var previews: some View {
         NavigationStack {
-            DetailView(productId: 4)
+            DetailView(productId: 1)
                 .environmentObject(NetworkManager())
         }
     }
