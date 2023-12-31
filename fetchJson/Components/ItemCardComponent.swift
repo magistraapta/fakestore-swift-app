@@ -28,14 +28,14 @@ struct ItemCardComponent: View {
             }
             VStack (alignment: .leading, spacing: 8){
                 Text(itemTitle)
-                    .multilineTextAlignment(.leading)
                     .foregroundColor(.black)
-                    .frame(width: 150, height: 50)
                     .truncationMode(.tail)
+                    .multilineTextAlignment(.leading)
+                    
                 Text("$\(ridZero(result: itemPrice))")
                     .foregroundColor(.black)
             }
-            .padding()
+            .frame( width: 150,height: 80)
             
         }
         .frame(maxWidth: 200)
@@ -50,6 +50,6 @@ struct ItemCardComponent: View {
 
 struct ItemCardComponent_Previews: PreviewProvider {
     static var previews: some View {
-        ItemCardComponent(itemImage: "https://fakestoreapi.com/img/71pWzhdJNwL._AC_UL640_QL65_ML3_.jpg", itemTitle:  "John Hardy Women's Legends Naga Gold & Silver Dragon Station Chain Bracelet", itemPrice: 109.95)
+        ItemCardComponent(itemImage: "https://fakestoreapi.com/img/71pWzhdJNwL._AC_UL640_QL65_ML3_.jpg", itemTitle:  "John Hardy W", itemPrice: 109.95)
     }
 }
